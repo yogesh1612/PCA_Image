@@ -44,12 +44,23 @@ shinyUI(fluidPage(
             tabPanel("Factorizing Pixel Matrices", value=2,
                      h4("Resized & Grayscale Image"),
                      imageOutput("rs_img"),
+                     h4("Gray Scale Image Dimensions (H X W)"),
+                     verbatimTextOutput("gray_dimss"),
+                     hr(),
+                     h4("No of Pixels (Gray Scale)"),
+                     verbatimTextOutput("gray_pix"),
                      hr(),
                      h4("PCA on Resized Image"),
                      plotOutput("pca_img"),
+                     h4("PCA Image Dimensions (H X W)"),
+                     verbatimTextOutput("pca_dimss"),
                      hr(),
-                     h4("NMF on Resized Image"),
-                     plotOutput("nmf_img")
+                     h4("No of Pixels (PCA Image)"),
+                     verbatimTextOutput("pca_pix"),
+                     hr()
+                    
+                    # h4("NMF on Resized Image"),
+                     #plotOutput("nmf_img")
                      
             ),
             id = "tabselected"

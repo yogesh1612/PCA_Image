@@ -39,12 +39,35 @@ server <- function(input, output,session) {
     }
   })
   
+  output$gray_dimss <- renderPrint({
+    dim(resized_im())
+  })
+  
+  output$gray_pix <- renderPrint({
+    prettyNum(length(resized_im()),big.mark = ',')
+  })
+  
+  
   output$rs_img <- renderImage({
     oi <- resized_im()
     writeImage(oi, "rs_img.jpeg", quality=100)
     filename <- normalizePath(file.path('./',paste0('rs_img','.jpeg')))
     list(src = filename, width = input$w ,height = input$h)
   }, deleteFile = FALSE)
+  
+  recv_img <- reactive({
+    req(up_img())
+    im <- img_check(resized_im())
+    show_recov_img(im, input$k)
+  })
+  
+  output$pca_dimss <- renderPrint({
+    dim(recv_img()[[2]])
+  })
+  
+  output$pca_pix <- renderPrint({
+    prettyNum(length(recv_img()[[2]]),big.mark = ',')
+  })
   
   
   output$pca_img <- renderPlot({
@@ -53,19 +76,18 @@ server <- function(input, output,session) {
    # kList = c(1, 2, 3, 4, 5, 10)
        # for (i0 in 1:length(kList)){ show_recov_img(resized_gray, kList[i0])}
     #im <- readImage('rs_img.jpeg')
-    im <- img_check(resized_im())
-    plot(show_recov_img(im, input$k), main = paste0("with ", input$k, " components."));   
+    plot(recv_img()[[1]], main = paste0("with ", input$k, " components."))  
 })
  
-  output$nmf_img <- renderPlot({
-    req(up_img())
-    # define list of components & run
-    # kList = c(1, 2, 3, 4, 5, 10)
-    # for (i0 in 1:length(kList)){ show_recov_img(resized_gray, kList[i0])}
-    #im <- readImage('rs_img.jpeg')
-    im <- img_check(resized_im())
-    plot(show_recov_nmf(im, input$k), main = paste0("with ", input$k, " components."));   
-  })
-  
+  # output$nmf_img <- renderPlot({
+  #   req(up_img())
+  #   # define list of components & run
+  #   # kList = c(1, 2, 3, 4, 5, 10)
+  #   # for (i0 in 1:length(kList)){ show_recov_img(resized_gray, kList[i0])}
+  #   #im <- readImage('rs_img.jpeg')
+  #   im <- img_check(resized_im())
+  #   plot(show_recov_nmf(im, input$k), main = paste0("with ", input$k, " components."));   
+  # })
+  # 
   
 }
