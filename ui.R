@@ -15,7 +15,7 @@ shinyUI(fluidPage(
         ),
         conditionalPanel(condition="input.tabselected==2",
                          h5("Resizing & Gray Scale"),
-                         numericInput("w","Width", min = 100,max = 1024,value = 200),
+                         numericInput("w","Width", min = 100,max = 1024,value = 250),
                          numericInput("h","Height", min = 100,max = 1024,value = 200),
                          checkboxInput("bw","Change to Grayscale",value = TRUE),
                          numericInput("k","Select K",min = 2,max=50,value=2)

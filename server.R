@@ -6,7 +6,7 @@ server <- function(input, output,session) {
   
   up_img <- reactive({
     req(input$file$datapath)
-    readImage(input$file$datapath)
+    OpenImageR::readImage(input$file$datapath)
   })
   
   output$dimss <- renderPrint({
@@ -18,7 +18,7 @@ server <- function(input, output,session) {
   })
   
   output$img <- renderImage({
-     oi <- readImage(input$file$datapath)
+     oi <- OpenImageR::readImage(input$file$datapath)
      writeImage(oi, "img.jpeg", quality=100)
      filename <- normalizePath(file.path('./',paste0('img','.jpeg')))
      list(src = filename, width = 400,height = 300)
